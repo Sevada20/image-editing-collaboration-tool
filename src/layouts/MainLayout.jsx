@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 const MainLayout = () => {
   return (
@@ -12,9 +12,11 @@ const MainLayout = () => {
       }}
     >
       <Navbar />
-      <Box sx={{ px: { xs: 2, sm: 3 } }}>
-        <Outlet />
-      </Box>
+      <Container maxWidth="lg" sx={{ pb: 1 }}>
+        <Box sx={{ px: { xs: 2, sm: 3 } }}>
+          <Outlet />
+        </Box>
+      </Container>
     </Box>
   );
 };

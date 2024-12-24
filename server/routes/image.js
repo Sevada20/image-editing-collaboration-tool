@@ -6,7 +6,6 @@ const Image = require("../models/Image");
 const authMiddleware = require("../middleware/auth");
 const fs = require("fs");
 
-// Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadDir = path.join(__dirname, "../uploads");

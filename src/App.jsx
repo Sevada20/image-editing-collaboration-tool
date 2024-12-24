@@ -28,23 +28,21 @@ function App() {
   return (
     <Router>
       <Box>
-        <Container maxWidth="lg">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route
-              element={
-                <PrivateRoute>
-                  <MainLayout />
-                </PrivateRoute>
-              }
-            >
-              <Route index path="/" element={<Home />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/editor/:id" element={<Editor />} />
-              <Route path="/image/:id" element={<ImageView />} />
-            </Route>
-          </Routes>
-        </Container>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route
+            element={
+              <PrivateRoute>
+                <MainLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/editor/:id" element={<Editor />} />
+            <Route path="/image/:id" element={<ImageView />} />
+          </Route>
+        </Routes>
       </Box>
     </Router>
   );

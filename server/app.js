@@ -37,11 +37,9 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/images", authMiddleware, imageRoutes);
 
-// Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadDir = path.join(__dirname, "uploads");
-    // Create uploads directory if it doesn't exist
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir);
     }
@@ -52,15 +50,11 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
-
-// Создаем папку uploads, если её нет
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }
 
-// Настраиваем статическую раздачу файлов с правильными CORS-заголовками
 app.use(
   "/uploads",
   (req, res, next) => {
