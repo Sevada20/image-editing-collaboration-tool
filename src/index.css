@@ -1,0 +1,65 @@
+Глобальные стили :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ссылки */
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: none; /* Убираем подчеркивание */
+  transition: color 0.25s ease;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+/* Тело страницы */
+body {
+  margin: 0;
+  background-color: var(
+    --background-color,
+    #242424
+  ); /* Поддержка переменной фона */
+  color: var(--text-color, rgba(255, 255, 255, 0.87));
+}
+
+/* Медиа запрос для светлой темы */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: #ffffff; /* Цвет фона для светлой темы */
+    --text-color: #213547; /* Цвет текста для светлой темы */
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+}
+
+@media (max-width: 600px) {
+  .MuiSlider-thumb {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .MuiButton-root {
+    padding: 12px 24px !important;
+  }
+}
+
+@media (max-width: 960px) {
+  .canvas-container {
+    width: 100% !important;
+  }
+}
