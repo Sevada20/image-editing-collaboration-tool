@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Use Routes instead of Switch
-import { Container, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { io } from "socket.io-client";
 import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
@@ -13,8 +13,6 @@ import ImageView from "./pages/ImageView";
 const socket = io("http://localhost:5000");
 
 function App() {
-  const [user, setUser] = useState(null);
-
   useEffect(() => {
     socket.on("connect", () => {
       console.log("Connected to WebSocket");
@@ -29,7 +27,7 @@ function App() {
     <Router>
       <Box>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/:auth" element={<Login />} />
           <Route
             element={
               <PrivateRoute>

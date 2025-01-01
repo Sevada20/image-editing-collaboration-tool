@@ -73,12 +73,19 @@ const Dashboard = () => {
   }, [user]);
 
   const handleDelete = (deletedImageId) => {
+    const deletedImage = images.find((img) => img._id === deletedImageId);
+
     setImages((prevImages) =>
       prevImages.filter((image) => image._id !== deletedImageId)
     );
+
     setStats((prev) => ({
       ...prev,
       totalImages: prev.totalImages - 1,
+      totalEdits: prev.totalEdits - (deletedImage?.editHistory?.length || 0),
+      recentActivity: prev.recentActivity.filter(
+        (activity) => activity.imageId !== deletedImageId
+      ),
     }));
   };
 

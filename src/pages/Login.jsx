@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
-import { TextField, Button, Box, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { TextField, Button, Box, Typography, Alert } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import { loginUser, registerUser } from "@/api";
 import { AuthContext } from "../context/AuthContext";
 
@@ -10,44 +10,69 @@ const Login = () => {
     password: "",
   });
   const [isRegistering, setIsRegistering] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const { auth } = useParams();
+
+  useEffect(() => {
+    setIsRegistering(auth === "register");
+  }, [auth]);
 
   const handleChange = (e) => {
     setUserData({
       ...userData,
       [e.target.name]: e.target.value,
     });
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      username: userData.username,
-      password: userData.password,
-    };
+    setError("");
+
+    if (!userData.username || !userData.password) {
+      setError("Please fill in all fields");
+      return;
+    }
 
     try {
+      const data = {
+        username: userData.username,
+        password: userData.password,
+      };
+
       let response;
       if (isRegistering) {
         response = await registerUser(data);
-        login(response.token, response.user);
       } else {
         response = await loginUser(data);
-        login(response.token, response.user);
       }
 
-      navigate("/");
+      if (response.token && response.user) {
+        login(response.token, response.user);
+        navigate("/");
+      } else {
+        setError("Invalid response from server");
+      }
     } catch (error) {
       console.log("Request failed", error);
+      setError(error.message || "An error occurred");
     }
   };
 
   return (
-    <Box sx={{ maxWidth: 400, margin: "0 auto", mt: 5 }}>
-      <Typography variant="h5" gutterBottom>
+    <Box sx={{ maxWidth: 400, margin: "0 auto", mt: 5, px: 2 }}>
+      <Typography variant="h5" gutterBottom align="center">
         {isRegistering ? "Register" : "Login"}
       </Typography>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+
       <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
@@ -57,6 +82,7 @@ const Login = () => {
           value={userData.username}
           onChange={handleChange}
           sx={{ mb: 2 }}
+          error={!!error && !userData.username}
         />
         <TextField
           fullWidth
@@ -67,21 +93,27 @@ const Login = () => {
           value={userData.password}
           onChange={handleChange}
           sx={{ mb: 2 }}
+          error={!!error && !userData.password}
         />
-        <Button fullWidth variant="contained" type="submit">
-          {isRegistering ? "Register" : "Login"}{" "}
+        <Button fullWidth variant="contained" type="submit" sx={{ mb: 2 }}>
+          {isRegistering ? "Register" : "Login"}
         </Button>
       </form>
-      <Box sx={{ mt: 2, textAlign: "center" }}>
-        <Button
-          onClick={() => setIsRegistering(!isRegistering)}
-          color="primary"
-        >
-          {isRegistering
-            ? "Already have an account? Login"
-            : "Don't have an account? Register"}
-        </Button>
-      </Box>
+
+      <Button
+        fullWidth
+        onClick={() => {
+          setIsRegistering(!isRegistering);
+          navigate(`/${isRegistering ? "login" : "register"}`);
+          setError("");
+          setUserData({ username: "", password: "" });
+        }}
+        sx={{ textTransform: "none" }}
+      >
+        {isRegistering
+          ? "Already have an account? Login"
+          : "Don't have an account? Register"}
+      </Button>
     </Box>
   );
 };

@@ -1,12 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Grid, Button, Box, Typography } from "@mui/material";
-import { AuthContext } from "@/context/AuthContext";
 import { getImages, uploadImage } from "@/api";
 import ImageCard from "@/components/ImageCard";
 
 const Home = () => {
   const [images, setImages] = useState([]);
-  const { isAuth } = useContext(AuthContext);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -32,6 +31,7 @@ const Home = () => {
     setImages((prevImages) =>
       prevImages.filter((image) => image._id !== deletedImageId)
     );
+    inputRef.current.value = null;
   };
 
   return (
@@ -41,7 +41,7 @@ const Home = () => {
       </Typography>
       <Button variant="contained" component="label">
         Upload Image
-        <input type="file" hidden onChange={handleUpload} />
+        <input type="file" hidden onChange={handleUpload} ref={inputRef} />
       </Button>
       <Grid container spacing={3} sx={{ mt: 3 }}>
         {images.map((image) => (

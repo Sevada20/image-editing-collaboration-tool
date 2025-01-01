@@ -5,14 +5,13 @@ const API_URL = "http://localhost:5000/api";
 const handleErrors = (error) => {
   console.error("API Error:", error);
   if (error.response) {
-    if (error.response.status === 413) {
-      throw new Error(
-        "Image size too large. Please try with a smaller image or lower quality."
-      );
-    }
-    throw new Error(error.response.data.message || "Server error");
+    const message =
+      error.response.data?.message ||
+      error.response.data?.error ||
+      "Server error";
+    throw new Error(message);
   }
-  throw new Error("Something went wrong!");
+  throw new Error("Network error - please check your connection");
 };
 
 const api = axios.create({
