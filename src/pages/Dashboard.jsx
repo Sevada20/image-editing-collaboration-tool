@@ -11,8 +11,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import { AuthContext } from "@/context/AuthContext";
-import ImageCard from "@/components/ImageCard";
 import { getImages } from "@/api";
+import ImageCard from "@/components/ImageCard";
 
 const Dashboard = () => {
   const [images, setImages] = useState([]);

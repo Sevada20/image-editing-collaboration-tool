@@ -403,16 +403,6 @@ const RealTimeEditor = ({
     }
   };
 
-  const handleResize = (width, height) => {
-    const img = fabricRef.current.backgroundImage;
-    if (img) {
-      img.scaleToWidth(width);
-      img.scaleToHeight(height);
-      fabricRef.current.renderAll();
-      saveToHistory();
-    }
-  };
-
   useEffect(() => {
     socket.on("connect_error", (error) => {
       console.error("Socket connection error:", error);
@@ -421,7 +411,6 @@ const RealTimeEditor = ({
 
     socket.on("reconnect", () => {
       console.log("Reconnected to server");
-      // Восстановить состояние
     });
 
     return () => {
