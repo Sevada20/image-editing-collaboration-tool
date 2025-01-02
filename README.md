@@ -45,7 +45,7 @@ A real-time collaborative image editing web application.
 1. Clone the repository:
 
 ```bash
-git clone [repository-url]
+git clone https://github.com/Sevada20/image-editing-collaboration-tool.git
 cd image-editing-collaboration-tool
 ```
 
