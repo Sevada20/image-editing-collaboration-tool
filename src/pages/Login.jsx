@@ -1,8 +1,17 @@
 import { useContext, useEffect, useState } from "react";
-import { TextField, Button, Box, Typography, Alert } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Alert,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { loginUser, registerUser } from "@/api";
 import { AuthContext } from "../context/AuthContext";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = () => {
   const [userData, setUserData] = useState({
@@ -11,6 +20,7 @@ const Login = () => {
   });
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const { auth } = useParams();
@@ -88,11 +98,23 @@ const Login = () => {
           fullWidth
           label="Password"
           variant="outlined"
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="password"
           value={userData.password}
           onChange={handleChange}
           sx={{ mb: 2 }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
           error={!!error && !userData.password}
         />
         <Button fullWidth variant="contained" type="submit" sx={{ mb: 2 }}>

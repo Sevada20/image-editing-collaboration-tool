@@ -77,7 +77,16 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB connected"))
+  .then(async () => {
+    console.log("MongoDB connected");
+    // Удаляем все индексы при запуске
+    try {
+      await mongoose.connection.collection("users").dropIndexes();
+      console.log("All indexes dropped");
+    } catch (error) {
+      console.log("No indexes to drop");
+    }
+  })
   .catch((err) => console.log(err));
 
 server.listen(5000, () => console.log("Server is running on port 5000"));
